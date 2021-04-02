@@ -1,0 +1,240 @@
+\documentclass [52pt] {article}
+\usepackage{amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{inputenc}
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{afterpage}
+\usepackage[ruled, linesnumbered]{algorithm2e}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\upn}{^{(n)}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Exp}{\mathbb{E}}
+\newcommand{\basis}{\text{span}}
+\newcommand{\Hil}{\mathcal{H}}
+\newcommand{\trace}{\text{trace}}
+\newcommand{\var}{\text{Var}}
+\newcommand{\cov}{\text{Cov}}
+\newcommand{\simiid}{\overset{\text{iid}}{\sim}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\conv}{\text{Conv}}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{definition}{Definition}
+\usepackage{ams symb}
+\usepackage{enumerate}
+\usepackage{amsrefs}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{hyperref}
+%\usepackage{atbegshi}% http://ctan.org/pkg/atbegshi
+%\AtBeginDocument{\AtBeginShipoutNext{\AtBeginShipoutDiscard}}
+\title{Persistence Landscapes and Iterated Function Systems}
+\author{Lee Przybylski}
+
+\begin{document}
+\maketitle
+\section{Persistence Landscape Stability}
+Let $X$ be a topological space.  For any function $f:X\to\R$, we may define a persistence module $M(f)$, where $M(f)(a) = H(f^{-1}((-\infty,a]))$ and $M(f)(a\le b)$ is induced by inclusion.  A popular choice of $f$ in practice is the minimum distance from a finite set of points, $K\subset X$.  The persistence module in this case can by computed using the Cech comples or approximated by the simpler Rips complex, which is obtained by looking at the homology of spaces formed by the union of balls centered at the points with an increasing radius.  
+
+For $a\le b$, we define the corresponding Betti number of $M$ to be
+\begin{equation}
+\beta^{a,b} = \dim(\text{im}(M(a\le b))).
+\end{equation}
+
+Given a persistence module $M$ we can then define the persistence landsape function $\lambda:\mathbb{N}\times \R \to\overline{\R}$ by
+\[\lambda(k,t) = \sup(m\ge 0|\beta^{t-m,t+m}\ge k).\]
+There is an alternative defintion given in Bubenik'19 that will be more useful for our purposes.  If the persistence module $M$ is represented as a persistence diagram $D = \{(a_i,b_i)\}_{i\in I}$, then we can define the simple functions
+\[\tau_{(a,b)}(t) = \max(0,\min(a+t,b-t)).\] 
+and for all $k\in\N$, $t\in\R$,
+\begin{equation}\label{eq : kmaxdef}
+\lambda(k,t)=\text{kmax}\{\tau_{(a_i,b_i)}(t)\}_{i\in I}.
+\end{equation}
+We use $\text{kmax}$ to denote the $k$th largest element of a set.  Note that $D$ is a multiset, meaning certain birth death pairs $(a_i,b_i)$ can appear more than once.  Persistence landscape functions fit nicely in $L^p(\mathbb{N}\times\R)$, where we use the product measure of the counting measure and the Lebesgue measure.  Suppose $f,g:X\to\R$.  If $\lambda$ is the persistence landscape obtained from $M(f)$ and $\lambda'$ is the persistence landscape obtained from $M(g)$, it is convinent to define
+\begin{equation}
+\Lambda_p(M(f),M(g)) := \|\lambda-\lambda'\|_\infty.
+\end{equation}
+We will use the following theorem from Peter Bubenik 2015.
+\begin{theorem}\label{thm : PLstab1}
+ For all $f,g:X\to\R$,
+\[\Lambda_\infty(M(f),M(g))\le \|f-g\|_\infty.\]
+\end{theorem}
+
+
+\section{The Persistence Landscape of the Cantor Set}
+In this section, our objective is to understand the persistence landscape obtained from the persistenence module of the middle-one-third cantor set $\mathcal{C}$.  Recall that 
+\[\mathcal{C} = \bigcap_{n=1}^\infty C_n,\]
+where 
+\[\begin{split}
+C_1 &= [0,1/3]\cup [2/3]\\
+C_2 &= [0,1/9]\cup[2/9,1/3]\cup [2/3,7/9]\cup[8/9,1]\\
+C_3 & = [0,1/27]\cup[2/27,1/9]\cup[2/9,7/27]\cup[8/27,1/3]\cup[2/3,19/27]\cup ...\cup [26/27,1]\\
+&\:\:\vdots
+\end{split}\]
+We obtain the $C_{n+1}$ from $C_n$ by removing the open middle third of each of the $2^n$ intervals that make $C_n$.  We note that 
+\[C_1 \supset C_2 \supset C_3\supset ...\supset C_{n-1}\supset C_n \supset C_{n+1}\supset ...\]
+Another characterization of $\mathcal{C}$ comes from an iterated function system.  Consider the collection of contraction maps $\Phi = \{\phi_0,\phi_2\}$, where
+\[\phi_0(x) = \frac{x}{3},\:\:\phi_2(x) = \frac{x}{3}+\frac{2}{3}.\]
+From Hutchinson 1981, we have the following result:
+\begin{theorem}\label{thm : Hutch1981}
+Let $X = (X,d)$ a complete metric space and $\Psi = \{\psi_1,...,\psi_N\}$ a finite set of contraction maps on $X$.  Then there exists a unique closed bounded set $K$ such that
+\[K = \bigcup_{i=1}^N \psi_i(K).\]
+Furthermore, $K$ is compact and is the closure of the set of fixed points of finite compositions of members of $\Psi$.  For arbitrary $A\subset X$, let 
+\[\Psi(A) = \bigcup_{i=1}^N s_i(A),\:\: \Psi^p(A) = \Psi(\Psi^{p-1}(A)).\]
+Then for a closed bounded $A$, $\Psi^p(A)\to K$ in the Hausdorff metric.
+\end{theorem}
+In the case that $X= [0,1]$ with the standard metric, it is known that for $\Psi = \Phi$, $K = \mathcal{C}$.  We define the Hausdorff metric between two non-empty, closed, bounded subsets $A,B\subset X$ by
+\[d_H(A,B) = \max\left\{\sup_{x\in A}\inf_{y\in B}d(x,y),\sup_{y\in B}\inf_{x\in A}d(x,y)\right\}.\]
+Define $f_A,f_B:X\to[0,\infty)$ by
+\[f_A(x) = \inf_{a\in A}d(x,a),\:\:f_B(x) = \inf_{b\in B}d(x,b).\]
+We can relate the Hausdorff metric to $\|f_A - f_B\|_\infty$.  We claim that
+\begin{equation}
+\|f_A -f_B\|_\infty \le d_H(A,B).
+\end{equation}
+
+Indeed, for all $x\in X$,
+\[|f_A(x) - f_B(x)| = \left|\inf_{a\in A}d(x,a) -\inf_{b\in B} d(x,b)\right| \le \max\left\{\sup_{a\in A}\inf_{b\in B}[d(x,a)-d(x,b)],\sup_{b\in B}\inf_{a\in A}[d(x,b)-d(x,a)]\right\}.\]
+for all $x\in X,a\in A$, and $b\in B$, we have
+\[d(x,b)-d(x,a)\le d(a,b).\]
+This implies
+\[\sup_{a\in A}\inf_{b\in B}[d(x,a)-d(x,b)]\le \sup_{a\in A}\inf_{b\in B} d(a,b).\]
+Another application of the triangle inequality tells us that
+\[\sup_{b\in B}\inf_{a\in A}[d(x,b)-d(x,a)]\le \sup_{b\in B}\inf_{a\in A} d(a,b).\]
+Putting this all together, we conclude that
+\begin{equation}
+\|f_A-f_B\|_\infty \le d_H(A,B).
+\end{equation}
+
+Note that it seems likely $\|f_A-f_B\|_\infty = d_H(A,B)$.  Using Hutchinson's notation let
+\[S_1 = \Phi(\{0,1\}) = \phi_0(\{0,1\}) \cup \phi_2(\{0,1\}) =\{0,1/3,2/3,1\},\:\: S_n = \Phi(S_{n-1}).\] 
+Define $f:[0,1]\to \R$ by
+\[f(x) = \inf_{y\in\mathcal{C}}|x-y|.\]
+For $n\in\mathbb{N}$, we define $f_n := f_{S_n}$.
+We have the following result:
+
+\begin{theorem}\label{thm : C_landscapes}
+The sequence of persistence landscapes generated from the sequence of point clouds of scales $\{S_n\}_{n=1}^\infty$ converges to the persistence landscape from the persistence module $M(f)$ in $L^\infty(\mathbb{N}\times\R)$.  In other words,
+\[\lim_{n\to\infty}\Lambda_\infty(M(f_n),M(f)) = 0\]
+\end{theorem}
+\begin{proof}
+We know that
+\[\mathcal{C} = \phi_0(\mathcal{C}) \cup\phi_2(\mathcal{C}).\]
+By the second part of Hutchinson's theorem, 
+\[\lim_{n\to\infty}d_H(S_n,\mathcal{C}) = 0.\]
+From above, we have for all $n\in\mathbb{N}$, $\|f_n-f\|_\infty \le d_H(S_n,\mathcal{C})$.  If we apply Theorem \ref{thm : PLstab1}, we obtain
+\[\Lambda_\infty(M(f_n), M(f)) \le d_H(S_n,\mathcal{C}).\]
+Taking the limit as $n\to\infty$, we obtain the result.
+\end{proof}
+
+Noting that the points in $S_n$ are equal to the end points in the disjoint closed intervals that make up $C_n$, we can be more precise about the rate of convergence in Theorem \ref{thm : C_landscapes}.  The length of each closed interval in $C_n$ is $1/3^n$.  Since $\mathcal{C}\subset C_n$ for all $n\in \mathbb{N}$, we find
+\[\Lambda_\infty(M(f_n), M(f))\le d_H(S_n,\mathcal{C})\le d_H(S_n, C_n) \le \frac{1}{2}\frac{1}{3^n}.\]
+
+\section{Affine Operators}
+
+In theorem \ref{thm : C_landscapes} we showed how there is a sequence of functions in $L^2(\N\times\R)$ that correspond to the sequence of sets $\{S_n\}_{n=1}^\infty$ and this sequence of functions has a limit.  Rather than viewing the sequence of functions in $L^2(N\times\R)$ it will be more convenient to view them as a sequence of vectors in the hilbert space
+\[ \Hil = \left\{\{g_n\}_{n=1}^\infty \subset L^2[0,1]\bigg| \sum_{n=1}^\infty \|g_n\|_{L^2[0,1]}^2 <\infty\right\}.\]
+We can see that $\Hil$ is isomorphic to $L^2(\N\times\R)$.  Our goal is to identify the operator $L:\Hil \to \Hil$ such that $L\mathbf{f}_n = \mathbf{f}_{n+1}$.  One function that will be useful since we are discussing persistence landscape functions will be the simple function $\tau:[0,1] \to\R$ defined
+\[\tau(x) = \begin{cases}
+x &\:\:\text{if}\:0\le x\le 1/2\\
+1-x &\:\:\text{if}\:1/2\le x\le 1
+\end{cases}\]
+We define $L$ for each $\mathbf{g}\in \Hil$ by 
+$L\mathbf{g} = \mathbf{h} = \{h_n\}_{n=0}^\infty$ where
+\[\begin{split}
+h_0(x) &= \tau(x),\\
+h_1(x) &= \frac{1}{3}g_0(3x)\\
+h_{2k}(x)&=h_{2k +1}(x) = \frac{1}{3}g_k(3x)\\
+\end{split}\]
+For reasons that will soon be clear, it will be easiest to adopt the convention that the maximum death time will be equal to the diameter of the minimum distance between two extreme points, which in the case of $\mathcal{C}$ is 1.  This when computing persistence landscapes using $H_0$, the first function in the sequence will always be $\tau_{(0,1)}$.  Based in the definition, it looks like $L$ is close to being linear.  Define $M:\Hil\to\Hil$ by $M\mathbf{g} = \mathbf{h}$, where
+\[\begin{split}
+h_0(x) &= 0,\\
+h_1(x) &= \frac{1}{3}g_0(3x)\\
+h_{2k}(x)&=h_{2k +1}(x) = \frac{1}{3}g_k(3x).\\
+\end{split}\]
+We can see that $M:\Hil\to\Hil$ is linear with $\|M\| = \sqrt{\frac{2}{27}}$.  
+\begin{theorem} For all $n\in\N\cup\{0\}$, $L\mathbf{f}_n = \mathbf{f}_{n+1}$.
+\end{theorem}
+\begin{proof}
+It easy to check for $n = 0$ using direct computation.  Since $S_0 = \{0,1\}$ and $S_1 = \{0,1/3,2/3,1\}$ we see that $f_0^{(0)} = \tau_{(0,1)}$, and $f_0^{(k)} = 0$ for all $k> 0$.  We can also see that 
+\[\mathbf{f}_1 = \{\tau_{(0,1)}, \tau_{(0,1/3)}, \tau_{(0,1/3)}, \tau_{(0,1/3)},0,0,0,...\}.\]
+Notice that for all $c>0$, 
+\[\tau_{(0,1/c)}(t) = \frac{1}{c}\tau_{(0,1)}(ct).\]
+Thus by the definition of $L$, we see that $L\mathbf{f}_0 = \mathbf{f}_1$.   For convenience, let 
+\[L_n = \frac{1}{3}S_n,\:\:R_n = \frac{1}{3}(S_n +2).\]
+For all $n\in\N$, we see that
+\[S_{n+1} = L_n\cup R_n.\]
+Since $S_n\subset[0,1]$, we know that $\frac{1}{3}S_n\cap \frac{1}{3}(S_n+2) = \emptyset$.  Moreover,
+\begin{equation}\label{eq : LRCdist}
+\min_{x\in L_n,y\in R_n} |x-y| = \frac{1}{3}.
+\end{equation}
+Let $D_n = \{(0,d_k)\}_{k=0}^{2^{n+1}-1}$. be the persistence diagram of $S_n$.  Assume $d_k\ge d_{k+1}$ for $k\in\{1,...,2^{n+1}-1\}$.  This means $d_0 = 1$ by our convention.  Since $L_n$ and $R_n$ are disjoint scaled copies of $S_n$, we know that 
+\[\{(0,d_k/3)\}_{k =1}^{2^{n+1}-1}\cup\{(0,d_k/3)\}_{k =1}^{2^{n+1}-1}\subset D_{n+1}.\]
+By (\ref{eq : LRCdist}) we also see that $(0,1/3)\in D_{n+1}$.  Since we are working with $H_0$, we also have $(0,1)\in D_{n+1}$ since one connected component will persist infinitely.  This accounts for all $2^{n+2}$ elements of $D_{n+1}$.  Thus the persistence diagram for scale $n+1$ is 
+\[D_{n+1} = \{(0,1), (0,1/3), (0,d_2/3), (0,d_2/3), ...,(0,d_{2^{n+1}}/3), (0,d_{2^{n+1}}/3)\}\]
+Applying the definition in (\ref{eq : kmaxdef}), we see that $\mathbf{f}_n = \{f_k^{(n)}\}_{k=0}^\infty$, is defined by
+\[f_k^{(n)} = \tau_{(0,d_k)}, \text{ for } k\in\{0,1,2,...,2^{n+1}-1\}, \:\text{and}\:f_k^{(n)}=0\: \text{for}\: k\ge 2^{n+1}.\]
+Since $d_0 = 1$ and $d_1 = 1/3$, we easilly check that $\mathbf{f}_{n+1} = \{f_k^{(n+1)}\}_{k=0}^\infty$ satisfies 
+\[\begin{split}
+f_0^{(n+1)} &= \tau_{(0,1)},\\
+f_1^{(n+1)}(x) &= \tau_{(0,1/3)}(x) = \frac{1}{3}f_0^{(n)}(3x)\\
+f_{2k}^{(n+1)}(x) = f_{2k+1}^{(n+1)}(x) &= \tau_{(0,d_k/3)}(x) = \frac{1}{3}f_k^{(n)}(3x)\:\text{for } k\in\N .\\ 
+\end{split}\]
+Therefore $L\mathbf{f}_n = \mathbf{f}_{n+1}$.
+
+\end{proof}
+Since $L$ is Lipschitz with constant $\|M\| = \sqrt{\frac{1}{27}}$, we see that $L$ has a unique fixed point, and that unique fixed point is $\mathbf{f} = \lim_{n\to\infty}\mathbf{f}_n$, which is the persistence landscape function of $\mathcal{C}$.
+
+\section{Examples}
+We can present a series of other examples of iterated function systems and the corresponding operators on $\mathcal{H}$. 
+\subsection{Right 1/3 Cantor Set}
+Consider the IFS $\Phi = \{\phi_0,\phi_1\}$ where
+\[\phi_0(x) = \frac{1}{3}x,\:\:\phi_1(x) = \frac{1}{3}x+\frac{1}{3}.\]
+In this case, we have $S_0 = \{0,1/2\}$, which is the set of extreme points for the right 1/3 Cantor set.  We define $S_n = \Phi(S_{n-1})$ as before, and let $\mathbf{f}_n\in\Hil$ be the persistence landscape from $H_0$ of $S_n$.  The map $L:\Hil\to\Hil$ that satisfies $L\mathbf{f}_{n+1} = \mathbf{f}_n$ is defined $L\mathbf{g} = \mathbf{h}$, where
+\[h_0= \tau_{(0,1/2)},\: h_1(x) = \frac{1}{3}g_0(3x),\:\text{and}\: h_{2k}(x) = h_{2k+1}(x) = \frac{1}{3}g_k(3x)\:\text{for}\: k\in\N.\]
+
+\subsection{1/5 Cantor Set}
+Consider the IFS $\Phi = \{\phi_0,\phi_2,\phi_4\}$ where
+\[\phi_0(x) = \frac{1}{5}x,\:\:\phi_2(x) = \frac{1}{5}x+\frac{2}{5},\:\:\phi_4(x) = \frac{1}{5}x+\frac{4}{5}.\]
+The set of extreme points is $S_0 = \{0,1\}$.  We define $S_n = \Phi(S_{n-1})$ as before.  We also denote the persistence landscape function for $S_n$ by $\mathbf{f}_n$.  The map $L:\Hil\to\Hil$ that satisfies $L\mathbf{f}_n = \mathbf{f}_{n+1}$ is defined by $L\mathbf{g} = \mathbf{h}$ where
+\[\begin{split}
+h_0 &= \tau_{(0,1)}\\
+h_1(x) = h_2(x) &= \frac{1}{5}g_0(5x)\\
+h_{3k}(x) = h_{3k+1}(x) = h_{3k+2}(x) &= \frac{1}{5}g_k(5x)\:\:\text{for}\:\:k\in\mathbb{N}.
+\end{split}\]
+
+\subsection{Cantor Triangle}
+Consider the IFS on $[0,1]^2$, $\Phi = \{\phi_{0,0}, \phi_{0,2},\phi_{2,0}\}$, where
+\[\phi_{0,0}(x,y) = \frac{1}{3}I_2(x,y)^T,\:\:\phi_{0,2}(x,y) = \frac{1}{3}I_2[(x,y)+(0,2)]^T,\:\:\phi_{2,0}(x,y) = \frac{1}{3}I_2[(x,y)+(2,0)]^T.\]
+The set of extreme points is $S_0 = \{(0,0), (0,1),(1,0)\}$.  We define $S_n = \Phi(S_{n-1})$ as before.  We also denote the persistence landscape function for $S_n$ by $\mathbf{f}_n$.  The map $L:\Hil\to\Hil$ that satisfies $L\mathbf{f}_n = \mathbf{f}_{n+1}$ is defined by $L\mathbf{g} = \mathbf{h}$ where
+\[\begin{split}
+h_0 &= \tau_{(0,1)}\\
+h_1(x) = h_2(x) &= \frac{1}{3}g_0(3x)\\
+h_{3k}(x) = h_{3k+1}(x) = h_{3k+2}(x) &= \frac{1}{3}g_k(3x)\:\:\text{for}\:\:k\in\mathbb{N}.
+\end{split}\]
+
+\subsection{Remarks}
+
+We see a few patterns emerge.  First, the size of the groups in the sequence $\mathbf{h}$ is equal to $m$, the number of functions in $\Phi$.  Second, the scaling coefficient $q\in\N$ such that
+\[h_{mk}(x) = h_{mk+1}(x) = ...= h_{mk+m-1}(x) = \frac{1}{q} g_k(qx)\]
+is equal to the Lipschitz constant of the maps $\phi_k\in\Phi$. 
+
+\section{Preliminaries}
+
+\begin{definition}
+For $A\subset\R^d$ we define the convex hull of $A$ as
+\[\conv(A) = \bigcap_{A\subset K,K\:\text{convex}} K.\]
+\end{definition}
+We assume from now on that our metric space is $\R^d$ with the standard metric.  For invariant set $A$, we began our sequence of sets by taking the collection of extreme points of the convex hull of $A$, which we denote as $E_A$.  If $\Phi$ is a family of $k$ contraction maps, then each $\phi\in\Phi$ has a unique fixed point.  Let $F_A$ be the collection of at most $k$ fixed points under $\Phi$.  To be precise, we say that $x\in F_A$ if there exists $\phi\in\Phi$ such that $\phi(x) = x$.  Theorem \ref{thm : Hutch1981} guarantees that $F_A \subset A$.  One question left to answer is $E_A\subset F_A$.  
+
+\begin{lemma}
+Let $X = \{x_j\}_{j=1}^n\subset \R^d$ and $K = \{\sum_{j=1}^nt_jx_j|\sum_{j=1}^n t_j = 1\}$.  Then $K = \conv(X)$
+\end{lemma} 
+\begin{proof}
+Clearly $\conv(X)\subset K$ since $K$ is convex set and contains $X$.  To prove the other containment, suppose $K_0$ is a convex set such that $X\subset K_0$.  Since $K_0$ is convex, $\sum_{j=1}^nt_jx_j \in K_0$ whenever $\sum_{j = 1}^n t_j = 1$.  Therefore $K\subset K_0$.  Since $K_0$ was an arbitrary, $K$ is contained in any convex set containing $X$, as well as the interesection of all such sets.  Thus $K\subset \conv(X)$.
+\end{proof}
+
+
+
+
+\end{document}
