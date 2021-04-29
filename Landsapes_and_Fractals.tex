@@ -9,6 +9,7 @@
 \newcommand{\norm}[1]{\left\lVert#1\right\rVert}
 \newcommand{\upn}{^{(n)}}
 \newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\Exp}{\mathbb{E}}
 \newcommand{\basis}{\text{span}}
@@ -274,11 +275,11 @@ Since $\psi_k(x_j)\in \conv(F_A)$ for all $j\in \{1,...,N\}$, this implies that 
 \begin{equation}\label{eq : haus_conv}
 A = \lim_{p\to\infty}\Psi^p(\conv(F_A))
 \end{equation}
- in the Hausdorf metric.  We claim that $A\subset\conv(F_A)$.  Indeed, choose $x\in A$.  For all $n\in \N$, it follows from \ref{eq: haus_conv} that there exists $p(n)$ such that for some $y_n\in \Psi^{p(n)}(\conv(F_A))$,
+ in the Hausdorf metric.  We claim that $A\subset\conv(F_A)$.  Indeed, choose $x\in A$.  For all $n\in \N$, it follows from \ref{eq : haus_conv} that there exists $p(n)$ such that for some $y_n\in \Psi^{p(n)}(\conv(F_A))$,
  \[|y_n-x|\le \frac{1}{n}\]
 Since $\Psi^p(\conv(F_A)\subset \conv(F_A)$ for all $p\in \N$, we have $\{y_n\}_{n=1}^\infty\subset\conv(F_A)$.  Since $\conv(F_A)$ is a closed set and $\lim_{n\to\infty}y_n = x$, this implies $x\in\conv(F_A)$, which proves the claim.   Thus we have the sequence of containments:
 \[F_A\subset A\subset\conv(A)\subset\conv(F_A).\]
-By definition, this implies, $\conv(F_A) = \conv(A)$,  By the Krein Millman Theorem, it follows that
+By definition, this implies, $\conv(F_A) = \conv(A)$.  By the Krein Millman Theorem, it follows that
 \[\conv(F_A) = \conv(A) = \conv(E_A).\]
 For any $y\in E_A$, $y\in\conv(F_A)$ implies $y =\sum_{j=1}^N t_jx_j$, where $\sum_{j=1}^N t_j = 1$, but since $y$ is an extreme point, $t_j = 0$ for all but 1 $j\in\{1,2,...,N\}$.  Thus $y = x_k\in F_A$.  Therefore $E_A\subset F_A$.
 \end{proof}
@@ -287,21 +288,43 @@ For any $y\in E_A$, $y\in\conv(F_A)$ implies $y =\sum_{j=1}^N t_jx_j$, where $\s
 \[\bigcup_{j=1}^N \psi_j(E)\subset E,\:\:\text{and}\:\:\psi_j(E)\cap\psi_k(E) = \emptyset\:\:\text{for}\:\:j\not=k.\]
 \end{definition}
 
-In Theorem \ref{thm : cantorset_op} we had a set of contractions, whose invariant set was the classical cantor set.  It was straightforward to find the operator $L:\Hil\to\Hil$ such that $L\mathbf{f}_n = \mathbf{f}_{n+1}$ because the images of the convex hull of the extreme points under $\Psi$ did not overlap.  This meant that $S_{n+1}$ would always be two disjoint, scaled down copies of $S_n$.  Using the open set condition, we can find sufficient conditions where the operator can be found for more general iterated function systems.  For an IFS $\Psi = \{\psi_{j}\}_{j=1}^N$ with invariant set $A$ we need a few definitions first.  Let $E_A$ be the set of extreme points of the convex hull of $A$.  Since $E_A\subset A$, by the open set condition, for $1\le j<k\le N$, we know that $\psi_j(E_A)$ and $\psi_k(E_A)$ are contained in disjoint open sets.  For $j\in \{1,...,N\}$ we can let
+In Theorem \ref{thm : cantorset_op} we had a set of contractions, whose invariant set was the classical cantor set.  It was straightforward to find the operator $L:\Hil\to\Hil$ such that $L\mathbf{f}_n = \mathbf{f}_{n+1}$ because the images of the convex hull of the extreme points under $\Psi$ did not overlap.  This meant that $S_{n+1}$ would always be two disjoint, scaled down copies of $S_n$.  There is a more general class of affine contractions that behave this way, making it easier to find the operator corresponding to the 0-degree persistence landscape function associated with the invariant set.  For an IFS $\Psi = \{\psi_{j}\}_{j=1}^N$ with invariant set $A$ we need a few definitions first.  Let $E_A$ be the set of extreme points of the convex hull of $A$.  Since $E_A\subset A$, by the open set condition, for $1\le j<k\le N$, we know that $\psi_j(E_A)$ and $\psi_k(E_A)$ are contained in disjoint open sets.  For $j\in \{1,...,N\}$ we can let
 \[d_j = \min_{1\le k\le N\\ j\not= k}d_H(\psi_j(E_A),\psi_k(E_A))\]
 We can also let $d_{\max}$ be the diameter of $E_A$.  By reordering the $\{\psi_j\}_{j=1}^N$ if necessary, we have that
 \[0<d_1= d_2\le...\le d_{N-1}\le d_N\le d_{\max}.\]
-We also define $r_j\in(0,1)$ to be the Lipschitz constant of $\psi_j$.  Then the define the affine map $L_\Psi:\Hil \to\Hil$ by
+We also define $r\in(0,1)$ to be the Lipschitz constant for each $\psi_j\in\Psi$.  Define the affine map $L_\Psi:\Hil \to\Hil$ by
 $L_\Psi\mathbf{g} = \mathbf{h} = \{h_n\}_{n=0}^\infty$ where
-\[\begin{split}
+\begin{equation}\label{eq : Lpsi_op}
+\begin{split}
 h_0(x) &= \tau_{d_{\max}}(x), h_1(x) = \tau_{d_N}(x), h_2(x) = \tau_{d_{N-1}}(x),...,h_{N-1}(x) = \tau_{d_2}(x)\\
-h_N(x) &= rg_0(r^{-1}x),....,h_{2N-1}(x) = g_0(r^{-1}x)\\
-h_{Nk}(x)&=h_{Nk +1}(x),..., h_{(N+1)k-1}(x) = rg_k(r^{-1}x)\:\text{for}\:\:k\in\N\\
-\end{split}\]
+h_N(x) &=h_{N+1}(x) = ... = h_{2N-1}(x) = rg_0(r^{-1}x)\\
+h_{Nk}(x)&=h_{Nk +1}(x)= h_{Nk+2}(x) = ... =  h_{(N+1)k-1}(x) = rg_k(r^{-1}x)\:\text{for}\:\:k\in\N\\
+\end{split}
+\end{equation}
 
 \begin{theorem}
-Let $\Psi = \{\psi_{j}\}_{j=1}^N$ be a IFS that satisfies the open set condition with invariant set $A\subset\R^d$.  Let 
+Let $\Psi = \{\psi_{j}\}_{j=1}^N$ be an IFS where each $\psi_j:\R^d\to\R^d$ has the form
+\[\psi_j(x) = \frac{1}{m}(x +b_j),\]
+with $m\in\N\backslash\{1\}$, and $b_j\in \Z^d$ with 
+\[\max_{1\le j\le k\le N}|b_j-b_k| \le  C.\]
+(Choose the appropriate $C$.  Maybe )
+  Let $A\subset\R^d$ be the invariant set of $\Psi$ and $E_A$ be the set of extreme points of $\conv(A)$.  Define $S_0 = E_A$ and for $n\in\N$, 
+\[S_n = \Psi(S_{n-1}),\]
+and $\mathbf{f}_n\in\Hil$ to be the degree-0 persistence landscape of $S_n$.  The operator $L_\Psi$ defined in (\ref{eq : Lpsi_op}) satisfies
+\[L_\Psi\mathbf{f}_n = \mathbf{f}_n.\]
 \end{theorem}
 
+\begin{proof}
+We assume without loss of generality that $b_j = \mathbf{0}$ for some $j\in\{1,...,N\}$.  We note also that 
+\[\min_{1\le j\le k\le N}|b_j - b_k| \ge 1\]
+since that is the minium distance between two distinct points on the integer lattice.  The form of our contractions implies that for each $\psi_j$, the corresponding fixed point is 
+\[x_j = \frac{b_j}{m-1}.\]
+This implies that for any two distinct fixed points, we have $|x_j-x_k|\ge (m-1)^{-1}$.
+\begin{itemize}
+\item $d(x_j,\psi_j(E_A))\le \frac{C}{m(m-1)}.$
+\item We should require $d_H(\psi_j(E_A),\psi_k(E_A))\ge \frac{1}{m}$ for $j\not= k$.
+\end{itemize}
+\end{proof}
+In example 4.1, how do we know that $\phi_0(0,1/2)\cap\phi_1(0,1/2)$ will be disjoint intervals.
 
 \end{document}
