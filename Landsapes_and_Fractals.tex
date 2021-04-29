@@ -81,7 +81,7 @@ From Hutchinson 1981, we have the following result:
 Let $X = (X,d)$ a complete metric space and $\Psi = \{\psi_1,...,\psi_N\}$ a finite set of contraction maps on $X$.  Then there exists a unique closed bounded set $K$ such that
 \[K = \bigcup_{i=1}^N \psi_i(K).\]
 Furthermore, $K$ is compact and is the closure of the set of fixed points of finite compositions of members of $\Psi$.  For arbitrary $A\subset X$, let 
-\[\Psi(A) = \bigcup_{i=1}^N s_i(A),\:\: \Psi^p(A) = \Psi(\Psi^{p-1}(A)).\]
+\[\Psi(A) = \bigcup_{i=1}^N \psi_i(A),\:\: \Psi^p(A) = \Psi(\Psi^{p-1}(A)).\]
 Then for a closed bounded $A$, $\Psi^p(A)\to K$ in the Hausdorff metric.
 \end{theorem}
 In the case that $X= [0,1]$ with the standard metric, it is known that for $\Psi = \Phi$, $K = \mathcal{C}$.  We define the Hausdorff metric between two non-empty, closed, bounded subsets $A,B\subset X$ by
@@ -153,7 +153,7 @@ h_1(x) &= \frac{1}{3}g_0(3x)\\
 h_{2k}(x)&=h_{2k +1}(x) = \frac{1}{3}g_k(3x).\\
 \end{split}\]
 We can see that $M:\Hil\to\Hil$ is linear with $\|M\| = \sqrt{\frac{2}{27}}$.  
-\begin{theorem} For all $n\in\N\cup\{0\}$, $L\mathbf{f}_n = \mathbf{f}_{n+1}$.
+\begin{theorem}\label{thm : cantorset_op} For all $n\in\N\cup\{0\}$, $L\mathbf{f}_n = \mathbf{f}_{n+1}$.
 \end{theorem}
 \begin{proof}
 It easy to check for $n = 0$ using direct computation.  Since $S_0 = \{0,1\}$ and $S_1 = \{0,1/3,2/3,1\}$ we see that $f_0^{(0)} = \tau_{(0,1)}$, and $f_0^{(k)} = 0$ for all $k> 0$.  We can also see that 
@@ -213,6 +213,15 @@ h_1(x) = h_2(x) &= \frac{1}{3}g_0(3x)\\
 h_{3k}(x) = h_{3k+1}(x) = h_{3k+2}(x) &= \frac{1}{3}g_k(3x)\:\:\text{for}\:\:k\in\mathbb{N}.
 \end{split}\]
 
+\subsection{$\mathcal{C}\times\frac{1}{2}\mathcal{C}$}
+Consider a second IFS on $\R^2$, $\Phi = \{\phi_{0,0}, \phi_{2,0}, \phi_{0,1}, \phi_{2,1}\}$, where
+\[\phi_{i,j}(x) = \frac{1}{3}\left(x+(i,j)^T\right).\]
+Note that $\phi_{0,0}$ and $\phi_{2,0}$ are defined exactly as they were in the previous example.  The invariant set of $\Phi$ turns out to be $\mathcal{C}\times\frac{1}{2}\mathcal{C}$ where $\mathcal{C}$ denotes the classical middle-third Cantor set.  If we take $S_n = \Phi(S_{n-1}$, where $S_0 = \{(0,0),(1,0),(0,\frac{1}{2}), (1,\frac{1}{2})\}$, and let $\mathbf{f}_n$ denote the persistence landscape function for $S_n$, then the map $L:\Hil\to\Hil$ that satisfies $L:\mathbf{f}_n = \mathbf{f}_{n+1}$ is defined by $L\mathbf{g} = \mathbf{h}$ where\[\begin{split}
+h_0 &= \tau_{(0,1)}, h_1 = \tau_{(0,1/3)}\\
+h_2 &= h_3 = \tau_{(0,1/6)}\\
+h_{4k}(x) = h_{4k+1}(x) = h_{4k+2}(x) = h_{4k+3}(x) &= \frac{1}{3}g_k(3x)\:\:\text{for}\:\:k\in\mathbb{N}.
+\end{split}\]
+
 \subsection{Remarks}
 
 We see a few patterns emerge.  First, the size of the groups in the sequence $\mathbf{h}$ is equal to $m$, the number of functions in $\Phi$.  Second, the scaling coefficient $q\in\N$ such that
@@ -225,16 +234,74 @@ is equal to the Lipschitz constant of the maps $\phi_k\in\Phi$.
 For $A\subset\R^d$ we define the convex hull of $A$ as
 \[\conv(A) = \bigcap_{A\subset K,K\:\text{convex}} K.\]
 \end{definition}
+
+\begin{definition}
+For a convex set $K\subset \R^d$, we say $x\in K$ is an extreme point if for any $y,z\in K$, 
+\[x = ty+(1-t)z\]
+for $t\in[0,1]$ implies $t = 1$.
+\end{definition}
 We assume from now on that our metric space is $\R^d$ with the standard metric.  For invariant set $A$, we began our sequence of sets by taking the collection of extreme points of the convex hull of $A$, which we denote as $E_A$.  If $\Phi$ is a family of $k$ contraction maps, then each $\phi\in\Phi$ has a unique fixed point.  Let $F_A$ be the collection of at most $k$ fixed points under $\Phi$.  To be precise, we say that $x\in F_A$ if there exists $\phi\in\Phi$ such that $\phi(x) = x$.  Theorem \ref{thm : Hutch1981} guarantees that $F_A \subset A$.  One question left to answer is $E_A\subset F_A$.  
 
-\begin{lemma}
+\begin{lemma}\label{lemma : conv_def}
 Let $X = \{x_j\}_{j=1}^n\subset \R^d$ and $K = \{\sum_{j=1}^nt_jx_j|\sum_{j=1}^n t_j = 1\}$.  Then $K = \conv(X)$
 \end{lemma} 
 \begin{proof}
 Clearly $\conv(X)\subset K$ since $K$ is convex set and contains $X$.  To prove the other containment, suppose $K_0$ is a convex set such that $X\subset K_0$.  Since $K_0$ is convex, $\sum_{j=1}^nt_jx_j \in K_0$ whenever $\sum_{j = 1}^n t_j = 1$.  Therefore $K\subset K_0$.  Since $K_0$ was an arbitrary, $K$ is contained in any convex set containing $X$, as well as the interesection of all such sets.  Thus $K\subset \conv(X)$.
 \end{proof}
 
+To prove the next result, we will make use of a well known theorem from functional analysis.
 
+\begin{theorem}[Krein-Milman]
+If $K$ is a convex, compact subset of a locally convex space then $K = \conv(E_K)$, where $E_K$ denotes the extreme points of $K$.
+\end{theorem}
+
+To simplify things, we will focus on contractions, that are also similitudes. $\phi:\R^d\to\R^d$ is a similitude if $\|\phi(x) -\phi(y)\| = r\|x-y\|$ for all $\mathbf{x}, \mathbf{y}\in\R^d$.  It is porven in proposition (1) of Hutchingson that all similitudes are given by affine transoformations with Lipschitz constant at most 1.  To be precise, this means each similitude is of the form
+\[\phi(\mathbf{x}) = r(Ux - \mathbf{b}).\]
+
+
+\begin{lemma}
+Suppose $A\subset \R^d$ is the invariant set for some IFS $\Psi = \{\psi_j\}_{j=1}^N$ consisting of affine transformations of the form $\phi_j(x) = r(x-b_j)$ where $r\in(0,1)$, $b_j\in\R^d$.  Then $E_A \subset F_A$.  
+\end{lemma}
+
+\begin{proof}
+Let $K = \conv(A)$.  $F_A\subset K$.  We assume that $x_j = \phi_j(\mathbf{x}_j)$.  Assume $F_A = \{\mathbf{x}_j\}_{j=1}^N$.  We first observe that for $k\in \{1,...,N\}$, since $x_k = r(x_k-b_k)$, we know that $rb_k = (r-1)x_k.$  This implies that for $j\not=k$, 
+\[\psi_k(x_j) = r(x_j-b_k) = rx_j-rb_k =rx_j-rb_k = rx_j-(r-1)x_k = rx_j+(1-r)x_k\in\conv(F_A).\] 
+If $y\in\conv(F_A)$, then for some $t_1,...,t_N\ge 0, \sum_{j=1}^N t_j = 1$ we have
+\[y = \sum_{j=1}^Nt_j x_j,\]
+and for any $\psi_k\in\Psi$,
+\[\psi_k(y) = r\left(\sum_{j=1}^N t_jx_j - b_k\right) = \sum_{j=1}^N rt_jx_j -rb_k = \sum_{j=1}^N rt_jx_j-\sum_{j=1}^Nt_j rb_k = \sum_{j=1}^N t_j r(x_j-b_k) = \sum_{j=1}^N t_j\psi_k(x_j).\]
+Since $\psi_k(x_j)\in \conv(F_A)$ for all $j\in \{1,...,N\}$, this implies that $\psi_k(y) \in \conv(F_A)$.  Since $k$ was arbitrary, this implies that the union of these images, $\Psi(\conv(F_A))\subset\conv(F_A)$.  From Theorem \ref{thm : Hutch1981}, we have 
+\begin{equation}\label{eq : haus_conv}
+A = \lim_{p\to\infty}\Psi^p(\conv(F_A))
+\end{equation}
+ in the Hausdorf metric.  We claim that $A\subset\conv(F_A)$.  Indeed, choose $x\in A$.  For all $n\in \N$, it follows from \ref{eq: haus_conv} that there exists $p(n)$ such that for some $y_n\in \Psi^{p(n)}(\conv(F_A))$,
+ \[|y_n-x|\le \frac{1}{n}\]
+Since $\Psi^p(\conv(F_A)\subset \conv(F_A)$ for all $p\in \N$, we have $\{y_n\}_{n=1}^\infty\subset\conv(F_A)$.  Since $\conv(F_A)$ is a closed set and $\lim_{n\to\infty}y_n = x$, this implies $x\in\conv(F_A)$, which proves the claim.   Thus we have the sequence of containments:
+\[F_A\subset A\subset\conv(A)\subset\conv(F_A).\]
+By definition, this implies, $\conv(F_A) = \conv(A)$,  By the Krein Millman Theorem, it follows that
+\[\conv(F_A) = \conv(A) = \conv(E_A).\]
+For any $y\in E_A$, $y\in\conv(F_A)$ implies $y =\sum_{j=1}^N t_jx_j$, where $\sum_{j=1}^N t_j = 1$, but since $y$ is an extreme point, $t_j = 0$ for all but 1 $j\in\{1,2,...,N\}$.  Thus $y = x_k\in F_A$.  Therefore $E_A\subset F_A$.
+\end{proof}
+
+\begin{definition} A collection of affine contractions $\Psi = \{\psi_j\}_{j=1}^n$ is said to satisfy the {\bf{open set condition (OSC)}} if there exists a nonempty open set $E\subset\R^d$ such that 
+\[\bigcup_{j=1}^N \psi_j(E)\subset E,\:\:\text{and}\:\:\psi_j(E)\cap\psi_k(E) = \emptyset\:\:\text{for}\:\:j\not=k.\]
+\end{definition}
+
+In Theorem \ref{thm : cantorset_op} we had a set of contractions, whose invariant set was the classical cantor set.  It was straightforward to find the operator $L:\Hil\to\Hil$ such that $L\mathbf{f}_n = \mathbf{f}_{n+1}$ because the images of the convex hull of the extreme points under $\Psi$ did not overlap.  This meant that $S_{n+1}$ would always be two disjoint, scaled down copies of $S_n$.  Using the open set condition, we can find sufficient conditions where the operator can be found for more general iterated function systems.  For an IFS $\Psi = \{\psi_{j}\}_{j=1}^N$ with invariant set $A$ we need a few definitions first.  Let $E_A$ be the set of extreme points of the convex hull of $A$.  Since $E_A\subset A$, by the open set condition, for $1\le j<k\le N$, we know that $\psi_j(E_A)$ and $\psi_k(E_A)$ are contained in disjoint open sets.  For $j\in \{1,...,N\}$ we can let
+\[d_j = \min_{1\le k\le N\\ j\not= k}d_H(\psi_j(E_A),\psi_k(E_A))\]
+We can also let $d_{\max}$ be the diameter of $E_A$.  By reordering the $\{\psi_j\}_{j=1}^N$ if necessary, we have that
+\[0<d_1= d_2\le...\le d_{N-1}\le d_N\le d_{\max}.\]
+We also define $r_j\in(0,1)$ to be the Lipschitz constant of $\psi_j$.  Then the define the affine map $L_\Psi:\Hil \to\Hil$ by
+$L_\Psi\mathbf{g} = \mathbf{h} = \{h_n\}_{n=0}^\infty$ where
+\[\begin{split}
+h_0(x) &= \tau_{d_{\max}}(x), h_1(x) = \tau_{d_N}(x), h_2(x) = \tau_{d_{N-1}}(x),...,h_{N-1}(x) = \tau_{d_2}(x)\\
+h_N(x) &= rg_0(r^{-1}x),....,h_{2N-1}(x) = g_0(r^{-1}x)\\
+h_{Nk}(x)&=h_{Nk +1}(x),..., h_{(N+1)k-1}(x) = rg_k(r^{-1}x)\:\text{for}\:\:k\in\N\\
+\end{split}\]
+
+\begin{theorem}
+Let $\Psi = \{\psi_{j}\}_{j=1}^N$ be a IFS that satisfies the open set condition with invariant set $A\subset\R^d$.  Let 
+\end{theorem}
 
 
 \end{document}
