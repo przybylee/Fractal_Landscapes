@@ -305,13 +305,13 @@ h_{Nk}(x)&=h_{Nk +1}(x)= h_{Nk+2}(x) = ... =  h_{(N+1)k-1}(x) = rg_k(r^{-1}x)\:\
 \begin{theorem}
 Let $\Psi = \{\psi_{j}\}_{j=1}^N$ be an IFS where each $\psi_j:\R^d\to\R^d$ has the form
 \[\psi_j(x) = \frac{1}{m}(x +b_j),\]
-with $m\in\N\backslash\{1\}$, and $b_j\in \Z^d$ with 
-\[\max_{1\le j\le k\le N}|b_j-b_k| \le  C.\]
-(Choose the appropriate $C$.  Maybe )
+with $m\in\Z,\:m\ge 3$, and $b_j\in \Z^d$ with entries in $[0,m-1]$  
+%\[\max_{1\le j\le k\le N}|b_j-b_k| \le  C.\]
+%(Choose the appropriate $C$.  Maybe $C = M/2$.)
   Let $A\subset\R^d$ be the invariant set of $\Psi$ and $E_A$ be the set of extreme points of $\conv(A)$.  Define $S_0 = E_A$ and for $n\in\N$, 
 \[S_n = \Psi(S_{n-1}),\]
 and $\mathbf{f}_n\in\Hil$ to be the degree-0 persistence landscape of $S_n$.  The operator $L_\Psi$ defined in (\ref{eq : Lpsi_op}) satisfies
-\[L_\Psi\mathbf{f}_n = \mathbf{f}_n.\]
+\[L_\Psi\mathbf{f}_n = \mathbf{f}_{n+1}.\]
 \end{theorem}
 
 \begin{proof}
@@ -319,11 +319,27 @@ We assume without loss of generality that $b_j = \mathbf{0}$ for some $j\in\{1,.
 \[\min_{1\le j\le k\le N}|b_j - b_k| \ge 1\]
 since that is the minium distance between two distinct points on the integer lattice.  The form of our contractions implies that for each $\psi_j$, the corresponding fixed point is 
 \[x_j = \frac{b_j}{m-1}.\]
-This implies that for any two distinct fixed points, we have $|x_j-x_k|\ge (m-1)^{-1}$.
+For any $\psi_j\in\Psi$, we have
+\[|x_j-\psi_j(x_k)|= |\psi_j(x_j) - \psi_j(x_k)| = \frac{|x_k-x_j|}{m}\]
+since for any $y\in E_A$, $|x_j-y|\le d_{\max}$ and $\psi_j$ has Lipschitz constant $\frac{1}{m}$.
+\[\frac{1}{m-1}\le |x_j-x_k|\le d_{\max}.\]
+For $j\not=k$, we have
+\[\psi_j(x_k) = \frac{1}{m}x_k+\frac{1}{m}b_j = \frac{1}{m}x_k+\frac{m-1}{m}x_j\]
+which implies
+\[|\psi_j(x_k)-\psi_k(x_j)| = \left|\frac{1}{m}x_k+\frac{m-1}{m}x_j-\left(\frac{1}{m}x_j+\frac{m-1}{m}x_k\right)\right|=\frac{m-2}{m}|x_j-x_k|\]
+\[\begin{split}
+|\psi_j(x_k) -\psi_k(x_j)|&= |\psi_j(x_k)-x_j+x_j-x_k-x_k-\psi_k(x_j)|\\
+&\ge ||x_j-x_k|-|\psi_j(x_k)-x_j +\psi_k(x_j)-x_k||\\
+& \ge |d-\frac{2d}{m}| = \frac{m-2}{m}d\ge d/m
+\end{split}\]
+\[|x_j-x_k|=d\]
+$d = |x_j-x_k|$
+
 \begin{itemize}
 \item $d(x_j,\psi_j(E_A))\le \frac{C}{m(m-1)}.$
 \item We should require $d_H(\psi_j(E_A),\psi_k(E_A))\ge \frac{1}{m}$ for $j\not= k$.
 \end{itemize}
+
 \end{proof}
 In example 4.1, how do we know that $\phi_0(0,1/2)\cap\phi_1(0,1/2)$ will be disjoint intervals.
 
