@@ -187,11 +187,22 @@ f_{2k}^{(n+1)}(x) = f_{2k+1}^{(n+1)}(x) &= \tau_{(0,d_k/3)}(x) = \frac{1}{3}f_k^
 Therefore $L\mathbf{f}_n = \mathbf{f}_{n+1}$.
 
 \end{proof}
-Since $L$ is Lipschitz with constant $\|M\| = \sqrt{\frac{1}{27}}$, we see that $L$ has a unique fixed point, and that unique fixed point is $\mathbf{f} = \lim_{n\to\infty}\mathbf{f}_n$, which is the persistence landscape function of $\mathcal{C}$.  Looking over the argument of Theorem \ref{thm :  cantorset_op} we find there is a more general statement about persistence homology when taking scaled, disjoint copies of a finite set in Euclidean space.
+Since $L$ is Lipschitz with constant $\|M\| = \sqrt{\frac{1}{27}}$, we see that $L$ has a unique fixed point, and that unique fixed point is $\mathbf{f} = \lim_{n\to\infty}\mathbf{f}_n$, which is the persistence landscape function of $\mathcal{C}$.  Looking over the argument of Theorem \ref{thm :  cantorset_op} we find there is a more general statement about persistence homology when taking scaled, disjoint copies of a finite set in Euclidean space.  Before proving this lemma, we will need to introduce some notation and definitions.  When discussing persistence homology of finite sets, we often need to discuss the topology of a fattened version of the set.  Let $(X,d)$ be a metric space.  For a finite set $S\subset X$ and $\varepsilon>0$ we let
+\[S_{\varepsilon} = \left\{x\in X: \inf_{y\in S}d(x,y)<\varepsilon\right\}\]
+To compute persistent homology with the Vietoris-Rips complex will also want some notion of how spread out the points of a set are.
+\begin{definition}
+For a metric space $(X,d)$, $S\subset X$, define
+\[\rho_{\mathrm{conn}}(X) := \inf\{\varepsilon>0:S_\varepsilon \:\:\text{is path connected}\}\]
+\end{definition}
+Clearly for $\varepsilon > \rho_{\mathrm{conn}}(S)$, $\text{dim}(H_0(S_{\varepsilon}) = 1$ so looking at larger scales tells us no more information about the persistence homology of $S$.  When looking at the 0-degree persistence diagram of $S$, $\rho_{\mathrm{conn}}(S)$ will be the largest finite death time.  We also note that 
+\[\inf_{x,y\in S} d(x,y)\le \rho_{\mathrm{conn}}(S)\le \diam(S).\]
+We will borrow another useful definition from Robins 2000.  We say that $A\subset X$ is an $\varepsilon$-component if $A_\varepsilon$ is connected and 
+\[d_{\inf}(A,X\backslash A) \ge\varepsilon.\]
+We let $C(X,\varepsilon)$ equal the number of distinct connected components of $X_\varepsilon$.  Note that if $X$ is compact, then $C(X,\varepsilon)<\infty$ for all $\varepsilon>0$.  There is also a relationship between $C(X,\varepsilon)$, and $\rho_{\mathrm{conn}}(X)$ since $\rho_{\mathrm{conn}}(X) = \inf(\varepsilon >0 : C(X,\varepsilon) = 0\}$.
 
 \begin{lemma}
-Suppose $A = \{x_i\}_{i=1}^n\subset\R^d$ with 0-degree persistence diagram $D = \{(0,d_k)\}_{k=1}^n$.  Also suppose that $\{A_j\}_{j=1}^m$ is a collection of sets satisfying $A_j = cUA + b_j$ where $b_j\in\R^d$ is some translation, and for $j\not=k$
-\[d_{\inf}(A_j,A_k)\ge c\diam(A).\]
+Suppose $A = \{x_i\}_{i=1}^n\subset\R^d$ with 0-degree persistence diagram $D = \{(0,d_k)\}_{k=1}^n$.  Also suppose that $\{A_j\}_{j=1}^m$ is a collection of sets satisfying $A_j = cA + b_j$ where $c >0$ and $b_j\in\R^d$ is some translation, and for $j\not=k$
+\[d_{\inf}(A_j,A_k)\ge c\rho_{\mathrm{conn}}(S).\]
 Under these assumptions, the persistence diagram of $\cup_{j=1}^mA_j$ is given by
 \[\tilde{D} = \cup_{j=1}^j\{(0,cd_k\}_{k=2}^n \cup\{(0,\delta_j)\}_{j=1}^m,\]
 where 
@@ -204,7 +215,11 @@ where
 \end{lemma}
 
 \begin{proof}
-First note that for $\varepsilon<c\diam(A)$, we have $A_{j,\varepsilon}$ is only a translation of $cA_\varepsilon$.  
+For convenience, let $\rho = \rho_{\mathrm{conn}}(S)$ and $E = \cup_{j=1}^m A_j$.  We continue using the convention that $d_k\ge d_{k+1}$ with $d_1 = \diam(A)$.  First note that for $\varepsilon<c\rho$, we have $A_{j,\varepsilon}$ is simply a translation of $(cA)_\varepsilon$ which is homeomorphic of to $A_{c^{-1}\varepsilon}$.  Thus $A_{j,\varepsilon}$ has the same number of path connected components as $A_{c^{-1}\varepsilon}$.  It follows from the assumption that for $j\not = k$,
+\[A_{j,\varepsilon}\cap A_{k,\varepsilon} = \emptyset.\]
+Thus, for $\varepsilon < c\rho$, we have $mC(A,c^{-1}\varepsilon)$ distinct path connected components.  This implies for each death time $d_k$, we have $cd_k$ is a death time for $\tilde{D}$. Moreover, there must be $m$ copies of this death time, one for each $A_j$.  Since $\left| \cup_{j=1}^m A_j\right| = mn$, we know that $\tilde{D} = mn$.  So far, we have that 
+\[\bigcup_{j=1}^m \{(0,cd_k)\}_{k=2}^n\subset \tilde{D}.\]
+Based on cardinality, we have acccounted for $m(n-1)$ points in $\tilde{D}$, and all that remains is to find the remaining $m$ death times.  By assumption, we have for $\varepsilon<c\rho$ has at least $m$ distinct connected components.  Without loss of generality, we assume that $\delta_j\le \delta_{j+1}$.  By definition, for $c\rho <\varepsilon <\delta_j$, we have that $A_j$ is a distinct $\varepsilon$-component of $E$ and for $\varepsilon >\delta_j$, $A_j$ is not an $\varepsilon$-componennt of $E$.  Thus, we must have death times at each $\delta_j, j = 1,...,m-1$.  We see that the largest death time is $\delta_m = \infty$ since the last connected component persists infinitely.  Thus $\{(0,\delta_j)\}_{j=1}^m\subset \tilde{D}$.
 \end{proof}
 
 
@@ -406,6 +421,7 @@ $d = |x_j-x_k|$
 \item $d(x_j,\psi_j(E_A))\le \frac{C}{m(m-1)}.$
 \item We should require $d_{\inf}(\psi_j(E_A),\psi_k(E_A))\ge \frac{1}{m}$ for $j\not= k$.
 \item Use (\ref{eq : psi_conv_comb}) to argue that $\psi_j(x_k)$ is the closest point in $\psi_j(S_0)$ to $x_k$.
+\item We could characterize the distance between two copies of $S_0$ by the fact that $E_A\subset [0,1]^d$ so $\psi_j(E_A)\subset [0,m^{-1}]^d + b_j/m$.  
 \end{itemize}
 
 \end{proof}
