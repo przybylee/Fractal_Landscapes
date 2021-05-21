@@ -438,8 +438,20 @@ Since the invariant set of $\Psi$ is contained in $[0,1]^d$, this assumption gau
 \[d(\psi_j(S_0), \psi_k(S_0)) \ge \frac{1}{m}\]
 In order to apply Lemma \ref{lemma : self_similar_persistence} to understand $L_\Psi$, we need to establish
 \begin{equation}
-d(\psi_j(S_0), \psi_k(S_0)) \ge \frac{1}{m}\rho_{\mathrm{conn}}(S_0)
+\min_{j\not= k}d(\psi_j(S_0), \psi_k(S_0)) \ge \frac{1}{m}\rho_{\mathrm{conn}}(S_0)
 \end{equation}
 
+This is readily done in one dimension.  Suppose for contradiction that for some $j\not= k$, 
+\[d(\psi_j(S_0),\psi_k(S_0))<\frac{1}{m}\rho_{\mathrm{conn}}(S_0).\]
+This implies further that for some $x,y\in E_A$, we have 
+\[\frac{1}{m}|(x - b_j) - (y-b_k)| = |\psi_j(x)-\psi_k(y)| < \frac{1}{m}\rho_{\mathrm{conn}}(S_0)\]
+Thus
+\[|b_k-b_j|-|x-y| <\rho_{\mathrm{conn}}(S_0).\]
+We can take some loose bounds to obtain
+\[2\le|b_k-b_j| <|x-y| + \rho_{\mathrm{conn}}(S_0)\le 2\diam(S_0) \le 2\sqrt{d}.\]
+Taking $d = 1$, this is a contradiction since since the inequality is strict.
+
+Trying to push this further, note that 
+\[\rho_{\mathrm{conn}} = \max_{x\in E_A}d(x,E_A\backslash\{x\}) = \max_{1\le j\le N}\max_{k\not = k}|x_j-x_k| =\frac{1}{m-1}\max_{1\le j\le N}\max_{k\not= j}|b_j-b_k|\]
 
 \end{document}
