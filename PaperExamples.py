@@ -142,6 +142,9 @@ Landprox = PersLandscapeApprox(dgms=Dgmprox, hom_deg=0)
 ttl = "PL for scale " + str(scale)
 plot_landscape(landscape=Landprox, title = ttl)
 
+#%% Plot a simple version of the landscape, this is faster
+plot_landscape_simple(landscape = Landprox, title = ttl)
+
 #%% Now we consider the Cantor triangle example
 def phi0(x):
     return x/3
