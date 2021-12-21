@@ -76,7 +76,7 @@ def phi02(x):
     return (x+np.array([0,2]))/3
 #%% Chose a scale to compute the ifs up to 
 #Keep the scale less than 30
-scale = 3
+scale = 2
 SArray = np.array([[0,0],[1,0],[0,1]])
 
 for j in range(scale):
@@ -90,7 +90,11 @@ print(SArray)
 
 #%% Plot at scale
 plt.figure(figsize = (10,10))
-plt.scatter(SArray[:,0], SArray[:,1])    
+# Color the shape
+x = SArray[:,0]
+y = SArray[:,1]
+plt.fill(x,y, facecolor = "lightsalmon", edgecolor = "purple", linewidth = 3)
+plt.scatter(SArray[:,0], SArray[:,1],linewidth = 6, Color = "purple", zorder = 2)  
 #%%
 Dgmprox = ripser(SArray, maxdim = 1)['dgms']
 plot_diagrams(Dgmprox, show=True, lifetime = False)

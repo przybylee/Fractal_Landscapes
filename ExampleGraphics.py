@@ -108,7 +108,7 @@ title = "r = " + str(eps)
 plt.title(title)
 plt.show()
 #%% Draw the corresponding simplicial complex for r
-eps = 0.7
+eps = 0.1
 #connections = np.zeros([N,N])
 #fig,ax = plt.subplots(1)
 plt.figure(figsize = (10,10))
@@ -134,9 +134,14 @@ for j in range(N):
                             yvalues = data[[j,k,l],1]
                             plt.fill(xvalues,yvalues, color = "lightblue")
 titl = "VR$(X,$" + str(eps) + ")"
-plt.title(titl, size = 20)
-plt.show()
-
+plt.title(titl, size = 30)
+#plt.title("Data", size = 30)
+plt.xticks(size = 20)
+plt.yticks(size = 20)
+#plt.show()
+filename = "Ex2VR" + str(eps)+ ".png"
+#plt.savefig("Ex2Data.png")
+plt.savefig(filename)
 #%% Plot a barcode manually
 eps = 1.0
 lwidth = 17
@@ -158,14 +163,18 @@ plt.plot(x,y, color = "green", lw = lwidth, label = "$H_1$")
 plt.legend(loc = 4, prop = {'size': 25})
 yticks = [-0.1, 0, 0.1, 0.2, 0.3, 0.4]
 plt.yticks([])
+plt.xticks(size = 20)
 vx = [eps,eps]
 vy = [-0.15,0.45]
 plt.plot(vx,vy, color = "red", linestyle = "--")
 #plt.show()
+#Save the Figure
 titl = "Ex2Barcode" + str(eps)+ ".png"
 #plt.savefig("Ex2Barcode.png")
 plt.savefig(titl)
-#%% Save the plot
-#Make sure to go to the correct working directory first
-titl = "Ex2Barcode" + str(eps)+ ".png"
-plt.savefig(titl)
+#%% Plot a persistence landscape for the data
+Landprox = PersLandscapeApprox(dgms=Dgmprox, hom_deg=0)
+#Landprox.compute_landscape()
+#ttl = "PL for scale " + str(scale)
+#plot_landscape(landscape=Landprox, title = ttl)
+plot_landscape(landscape=Landprox, title = "Persistence Landscape from $H_0$")
